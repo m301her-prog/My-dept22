@@ -11,11 +11,11 @@ import { CapacitorHttp } from '@capacitor/core';
 
 // Cloud API URLs for Neon database sync
 const CLOUD_API = {
-  registerUser: 'https://nawh-ai25.vercel.app/api/register-user',
-  loginUser: 'https://nawh-ai25.vercel.app/api/login-user',
-  saveData: 'https://nawh-ai25.vercel.app/save',
-  getData: 'https://nawh-ai25.vercel.app/get',
-  deleteData: 'https://nawh-ai25.vercel.app/api/Delete'
+  registerUser: 'https://my-dept22.vercel.app/auth/register-user',
+  loginUser: 'https://my-dept22.vercel.app/auth/login-user',
+  saveData: 'https://my-dept22.vercel.app/save',
+  getData: 'https://my-dept22.vercel.app/get',
+  deleteData: 'https://my-dept22.vercel.app/auth/Delete'
 };
 
 // Neon database connection string - set in .env as VITE_NEON_DATABASE_URL
@@ -637,7 +637,7 @@ export const updateDebtStatus = async (userId, debtId, updates) => {
 
 /**
  * Direct Cloud API Delete Handler
- * Invokes https://nawh-ai25.vercel.app/api/Delete
+ * Invokes https://my-dept22.vercel.app/auth/Delete
  */
 export const deleteDataFromCloud = async (id, companyName = '', userId = '') => {
   try {
@@ -687,7 +687,7 @@ export const deleteDebt = async (debtId, companyName = '', userId = 'guest') => 
     console.warn('LocalStorage global cleanup warning:', err.message);
   }
 
-  // 2. Direct Delete API request (nawh-ai25.vercel.app/api/Delete)
+  // 2. Direct Delete API request
   const cloudDeleteResult = await deleteDataFromCloud(debtId, companyName, targetUserId);
 
   // 3. Delete request through saveData fallback endpoint
