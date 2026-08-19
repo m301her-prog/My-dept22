@@ -9,13 +9,13 @@
 
 import { CapacitorHttp } from '@capacitor/core';
 
-// Cloud API URLs for Neon database sync
+// Cloud API URLs for Neon database sync - Updated base URL correctly
 const CLOUD_API = {
-  registerUser: 'https://my-dept22.vercel.app/auth/register-user',
-  loginUser: 'https://my-dept22.vercel.app/auth/login-user',
+  registerUser: 'https://my-dept22.vercel.app/register-user',
+  loginUser: 'https://my-dept22.vercel.app/login-user',
   saveData: 'https://my-dept22.vercel.app/save',
   getData: 'https://my-dept22.vercel.app/get',
-  deleteData: 'https://my-dept22.vercel.app/auth/Delete'
+  deleteData: 'https://my-dept22.vercel.app/Delete'
 };
 
 // Neon database connection string - set in .env as VITE_NEON_DATABASE_URL
@@ -637,7 +637,7 @@ export const updateDebtStatus = async (userId, debtId, updates) => {
 
 /**
  * Direct Cloud API Delete Handler
- * Invokes https://my-dept22.vercel.app/auth/Delete
+ * Invokes https://my-dept22.vercel.app/Delete
  */
 export const deleteDataFromCloud = async (id, companyName = '', userId = '') => {
   try {
