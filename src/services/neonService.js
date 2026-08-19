@@ -9,13 +9,13 @@
 
 import { CapacitorHttp } from '@capacitor/core';
 
-// Cloud API URLs for Neon database sync - Updated base URL correctly
+// Cloud API URLs for Neon database sync - Updated base URL correctly with /api/ prefix
 const CLOUD_API = {
-  registerUser: 'https://my-dept22.vercel.app/register-user',
-  loginUser: 'https://my-dept22.vercel.app/login-user',
-  saveData: 'https://my-dept22.vercel.app/save',
-  getData: 'https://my-dept22.vercel.app/get',
-  deleteData: 'https://my-dept22.vercel.app/Delete'
+  registerUser: 'https://my-dept22.vercel.app/api/register-user',
+  loginUser: 'https://my-dept22.vercel.app/api/login-user',
+  saveData: 'https://my-dept22.vercel.app/api/save',
+  getData: 'https://my-dept22.vercel.app/api/get',
+  deleteData: 'https://my-dept22.vercel.app/api/Delete'
 };
 
 // Neon database connection string - set in .env as VITE_NEON_DATABASE_URL
@@ -637,7 +637,7 @@ export const updateDebtStatus = async (userId, debtId, updates) => {
 
 /**
  * Direct Cloud API Delete Handler
- * Invokes https://my-dept22.vercel.app/Delete
+ * Invokes https://my-dept22.vercel.app/api/Delete
  */
 export const deleteDataFromCloud = async (id, companyName = '', userId = '') => {
   try {
@@ -1037,28 +1037,38 @@ export const calculateStatistics = (userId) => {
   const debts = fetchDebts(userId);
   const now = new Date();
 
-  const totalOwedToMe = debts
-    .filter(d => d.type === 'owed_to_me' && d.status !== 'paid')
-    .reduce((sum, d) => sum + (d.amount - (d.paidAmount || 0)), 0);
+  let totalOwedToMe = 0;
+  let totalIOwe = 0;
+  let paidDebtsCount = 0;
+  let pendingDebtsCount = 0;
+  const overdueDebts = [];
 
-  const totalIOwe = debts
-    .filter(d => d.type === 'i_owe' && d.status !== 'paid')
-    .reduce((sum, d) => sum + (d.amount - (d.paidAmount || 0)), 0);
+  debts.forEach(debt => {
+    if (debt.status === 'paid') {
+      paidDebtsCount++;
+    } else {
+      pendingDebtsCount++;
+      const amount = parseFloat(debt.amount) || 0;
 
-  const paidDebtsCount = debts.filter(d => d.status === 'paid').length;
-  const pendingDebtsCount = debts.filter(d => d.status === 'pending').length;
+      if (debt.type === 'owed_to_me') {
+        totalOwedToMe += amount;
+      } else {
+        totalIOwe += amount;
+      }
 
-  const overdueDebts = debts.filter(d => {
-    if (d.status === 'paid' || !d.dueDate) return false;
-    return new Date(d.dueDate) < now;
+      if (debt.dueDate && new Date(debt.dueDate) < now) {
+        overdueDebts.push(debt);
+      }
+    }
   });
 
   return {
     totalDebtsCount: debts.length,
-    totalOwedToMe,
-    totalIOwe,
     paidDebtsCount,
     pendingDebtsCount,
+    totalOwedToMe,
+    totalIOwe,
+    netBalance: totalOwedToMe - totalIOwe,
     overdueDebts
   };
 };
