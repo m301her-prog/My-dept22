@@ -5,7 +5,7 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method Not Allowed' });
   }
 
-  const baseConnectionString = process.env.DATABASE_URL;
+  const baseConnectionString = process.env.ATABASE_URL;
   if (!baseConnectionString) {
     return res.status(500).json({ error: 'DATABASE_URL غير معرف في متغيرات البيئة' });
   }
