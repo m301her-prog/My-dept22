@@ -34,7 +34,7 @@ export default function InstallAppButton() {
 
   const isArabic = language === 'ar';
   const isFrench = language === 'fr';
-  const buttonLabel = isArabic ? 'تثبيت التطبيق' : isFrench ? "Installer l'application" : 'Install app';
+  const buttonLabel = isArabic ? 'تثبيت التطبيق الآن' : isFrench ? "Installer l'application maintenant" : 'Install app now';
   const helpTitle = isArabic ? 'تثبيت مدير الديون على الكمبيوتر' : isFrench ? "Installer le gestionnaire sur l'ordinateur" : 'Install Debt Manager on your computer';
   const helpText = isArabic
     ? 'اضغط على أيقونة التثبيت في شريط عنوان المتصفح، أو افتح قائمة المتصفح واختر «تثبيت التطبيق» أو «إضافة إلى الشاشة الرئيسية». بعد التثبيت سيعمل التطبيق في نافذة مستقلة مثل أي تطبيق سطح مكتب.'
@@ -57,11 +57,12 @@ export default function InstallAppButton() {
       <button
         type="button"
         onClick={handleInstall}
-        className="inline-flex items-center gap-2 rounded-xl bg-white/20 px-3 py-2 text-xs font-bold text-white shadow-sm backdrop-blur-sm transition hover:bg-white/30 focus:outline-none focus:ring-2 focus:ring-white/70"
+        className="fixed bottom-4 left-1/2 z-40 flex w-[calc(100%-2rem)] max-w-md -translate-x-1/2 items-center justify-center gap-3 rounded-2xl bg-emerald-600 px-6 py-4 text-base font-extrabold text-white shadow-2xl ring-2 ring-white/80 transition hover:bg-emerald-700 hover:shadow-emerald-500/40 focus:outline-none focus:ring-4 focus:ring-emerald-300 sm:text-lg"
         title={buttonLabel}
+        aria-label={buttonLabel}
       >
-        <Download className="h-4 w-4" aria-hidden="true" />
-        <span className="hidden sm:inline">{buttonLabel}</span>
+        <Download className="h-6 w-6" aria-hidden="true" />
+        <span>{buttonLabel}</span>
       </button>
 
       {showHelp && (
