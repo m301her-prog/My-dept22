@@ -5,6 +5,7 @@ import html2pdf from 'html2pdf.js';
 import { Filesystem, Directory } from '@capacitor/filesystem';
 import { Share } from '@capacitor/share';
 import { Capacitor } from '@capacitor/core';
+import InstallAppButton from '../components/InstallAppButton.jsx';
 import {
   TrendingUp,
   TrendingDown,
@@ -338,10 +339,11 @@ export default function Home() {
             <p className="text-emerald-100 text-sm mt-1">
               {language === 'ar' ? 'كيف حالك اليوم؟' : ''}
             </p>
-          </div>
+		  </div>
 
-          <div className="flex items-center gap-2">
-            <div className="flex bg-white/20 rounded-xl p-1 backdrop-blur-sm">
+		  <div className="flex items-center gap-2">
+		    <InstallAppButton />
+		    <div className="flex bg-white/20 rounded-xl p-1 backdrop-blur-sm">
               {['ar', 'fr', 'en'].map(lang => (
                 <button
                   key={lang}

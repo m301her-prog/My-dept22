@@ -5,6 +5,12 @@ import App from './App.jsx';
 import { AppProvider } from './context/AppContext.jsx';
 import './index.css';
 import { LocalNotifications } from '@capacitor/local-notifications';
+import { usePwaServiceWorker } from './components/InstallAppButton.jsx';
+
+const PwaInitializer = () => {
+  usePwaServiceWorker();
+  return null;
+};
 
 // مكون لطلب إذن الإشعارات المحلية فوراً عند تشغيل التطبيق
 const NotificationInitializer = () => {
@@ -38,6 +44,7 @@ root.render(
   <StrictMode>
     <BrowserRouter>
       <AppProvider>
+        <PwaInitializer />
         <NotificationInitializer />
         <App />
       </AppProvider>
